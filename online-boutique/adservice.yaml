@@ -67,6 +67,13 @@ spec:
           capabilities:
             drop:
               - NET_RAW
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          readOnlyRootFilesystem: true
+      securityContext:
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
           seccompProfile:
             type: RuntimeDefault
       securityContext:
