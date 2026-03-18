@@ -35,13 +35,6 @@ spec:
         env:
         - name: REDIS_ADDR
           value: "redis-cart:6379"
-        resources:
-          requests:
-            cpu: 200m
-            memory: 64Mi
-          limits:
-            cpu: 300m
-            memory: 128Mi
         readinessProbe:
           initialDelaySeconds: 15
           exec:
@@ -51,6 +44,18 @@ spec:
           periodSeconds: 10
           exec:
             command: ["/bin/grpc_health_probe", "-addr=:7070", "-rpc-timeout=5s"]
+        securityContext:
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          capabilities:
+            drop:
+              - NET_RAW
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+      securityContext:
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
 ---
 apiVersion: v1
 kind: Service
