@@ -1,4 +1,4 @@
-# Copyright 2018 Google LLC
+# Copyright 2018 Google LLC 
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# Adding comment to the aservice.yaml file to start the workflow.
 
 apiVersion: apps/v1
 kind: Deployment
@@ -20,6 +21,7 @@ spec:
   selector:
     matchLabels:
       app: adservice
+  # test
   template:
     metadata:
       labels:
@@ -59,6 +61,8 @@ spec:
           exec:
             command: ["/bin/grpc_health_probe", "-addr=:9555"]
         securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
           runAsNonRoot: true
           capabilities:
             drop:
@@ -70,6 +74,11 @@ spec:
       securityContext:
         runAsNonRoot: true
         allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+      securityContext:
+        allowPrivilegeEscalation: false
+        runAsNonRoot: true
 ---
 apiVersion: v1
 kind: Service
