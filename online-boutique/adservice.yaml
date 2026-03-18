@@ -63,6 +63,8 @@ spec:
             command: ["/bin/grpc_health_probe", "-addr=:9555"]
         securityContext:
           allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           capabilities:
